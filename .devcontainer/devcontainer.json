@@ -1,0 +1,22 @@
+{
+    "name": "DotNet Web Api",
+    "image": "mcr.microsoft.com/devcontainers/dotnet:dev-10.0-noble",
+    "forwardPorts": [5056, 7136],
+    "portsAttributes": {
+        "7136": { "protocol": "https" }
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-dotnettools.csharp",
+                "ms-dotnettools.csdevkit",
+                "kreativ-software.csharpextensions",
+                "PKief.material-icon-theme",
+                "dbaeumer.vscode-eslint",
+                "ms-dotnettools.vscode-dotnet-runtime",
+                "humao.rest-client"
+            ]
+        }
+    },
+    "postCreateCommand": "dotnet restore"
+}
