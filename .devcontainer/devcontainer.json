@@ -1,6 +1,6 @@
 {
     "name": "DotNet Web Api",
-    "image": "mcr.microsoft.com/devcontainers/dotnet:dev-10.0-noble",
+    "dockerFile": "Dockerfile",
     "forwardPorts": [5056, 7136],
     "portsAttributes": {
         "7136": { "protocol": "https" }
