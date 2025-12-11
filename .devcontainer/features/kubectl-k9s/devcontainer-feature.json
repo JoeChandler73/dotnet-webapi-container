@@ -1,0 +1,7 @@
+{
+  "id": "kubectl-k9s",
+  "version": "1.0.0",
+  "name": "Kubectl and k9s",
+  "description": "Installs kubectl and k9s and maps kube config",
+  "options": {}
+}

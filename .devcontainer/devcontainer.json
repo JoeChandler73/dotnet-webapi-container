@@ -3,6 +3,8 @@
     "dockerFile": "Dockerfile",
     "features": {
         "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+        "./features/kubectl-k9s": {
+        },
         "./features/starship-nerd-font": {
             "nerdFont": "IBMPlexMono",
             "starshipPreset": "no-runtime-versions",
@@ -22,10 +24,19 @@
                 "PKief.material-icon-theme",
                 "dbaeumer.vscode-eslint",
                 "ms-dotnettools.vscode-dotnet-runtime",
-                "humao.rest-client"
+                "humao.rest-client",
+                "ms-kubernetes-tools.vscode-kubernetes-tools"
             ]
         }
     },
     "postCreateCommand": "dotnet restore",
-    "postStartCommand": "dotnet dev-certs https --trust"
+    "postStartCommand": "dotnet dev-certs https --trust",
+    "runArgs": [
+        // Mount the local kubeconfig file into the container
+        "-v", "${env:HOME}/.kube/config:/home/user/.kube/config:ro"
+    ],
+    "containerEnv": {
+        // Set the KUBECONFIG environment variable to point to the mounted file
+        "KUBECONFIG": "/home/user/.kube/config"
+    }
 }
