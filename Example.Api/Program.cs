@@ -15,6 +15,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.MapGet("/", () => "Hello from Docker!");
+
 app.MapGet("/message", (IService service) =>
     {
         return service.GetMessage();

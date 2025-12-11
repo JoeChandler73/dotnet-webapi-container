@@ -1,7 +1,15 @@
 {
     "name": "DotNet Web Api",
     "dockerFile": "Dockerfile",
-    "forwardPorts": [5056, 7136],
+    "features": {
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+        "./features/starship-nerd-font": {
+            "nerdFont": "IBMPlexMono",
+            "starshipPreset": "no-runtime-versions",
+            "fontVersion": "v3.4.0"
+        }
+    },
+    "forwardPorts": [5056, 7136, 8080], // 5056 and 7136 for development, 8080 when running in docker 
     "portsAttributes": {
         "7136": { "protocol": "https" }
     },
@@ -18,5 +26,6 @@
             ]
         }
     },
-    "postCreateCommand": "dotnet restore"
+    "postCreateCommand": "dotnet restore",
+    "postStartCommand": "dotnet dev-certs https --trust"
 }
