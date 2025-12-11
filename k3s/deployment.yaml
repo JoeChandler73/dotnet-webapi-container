@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: example-api-deployment
+  annotations:
+    kubernetes.io/change-cause: "Initial deployment for Web Api"
+spec: 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: example-api
+  template:
+    metadata:
+      name: meta-example-api
+      labels: 
+        env: prod
+        app: example-api
+        app.kubernetes.io/name: example-api
+    spec:
+      containers:
+        - name: example-api
+          image: joechandler73/example-api:latest
+          ports:
+            - containerPort: 80
+              name: example-api
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+            limits:
+              cpu: 200m
+              memory: 200Mi
+          env:
+            - name: ASPNETCORE_URLS
+              value: http://+:80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-api-service
+spec:
+  selector:
+    app.kubernetes.io/name: example-api
+  ports:
+    - name: example-api
+      protocol: TCP
+      port: 8080
+      targetPort: 80
+  type: LoadBalancer

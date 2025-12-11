@@ -18,3 +18,7 @@ ENTRYPOINT ["dotnet", "Example.Api.dll"]
 
 # docker build -t example-api .
 # docker run -d -p 8080:80 --name example-api example-api
+
+# docker buildx create --use --name multi-arch
+# docker buildx build --platform linux/amd64,linux/arm64 --push -t joechandler73/example-api .
+# docker buildx rm multi-arch
