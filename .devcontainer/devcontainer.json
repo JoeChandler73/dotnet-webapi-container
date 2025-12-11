@@ -3,17 +3,28 @@
     "dockerFile": "Dockerfile",
     "features": {
         "ghcr.io/devcontainers/features/docker-in-docker:2": {},
-        "./features/kubectl-k9s": {
-        },
+        "./features/kubectl-k9s": {},
         "./features/starship-nerd-font": {
             "nerdFont": "IBMPlexMono",
             "starshipPreset": "no-runtime-versions",
             "fontVersion": "v3.4.0"
         }
     },
-    "forwardPorts": [5056, 7136, 8080], // 5056 and 7136 for development, 8080 when running in docker 
+    "forwardPorts": [5056, 7136, 8080],
     "portsAttributes": {
-        "7136": { "protocol": "https" }
+        "5056": { 
+            "label": "HTTP Dev Server",
+            "onAutoForward": "notify"
+        },
+        "7136": { 
+            "label": "HTTPS Dev Server",
+            "protocol": "https",
+            "onAutoForward": "notify"
+        },
+        "8080": { 
+            "label": "Docker Container",
+            "onAutoForward": "silent"
+        }
     },
     "customizations": {
         "vscode": {
@@ -26,17 +37,35 @@
                 "ms-dotnettools.vscode-dotnet-runtime",
                 "humao.rest-client",
                 "ms-kubernetes-tools.vscode-kubernetes-tools"
-            ]
+            ],
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash",
+                "terminal.integrated.profiles.linux": {
+                    "bash": {
+                        "path": "/bin/bash"
+                    }
+                }
+            }
         }
     },
     "postCreateCommand": "dotnet restore",
     "postStartCommand": "dotnet dev-certs https --trust",
-    "runArgs": [
-        // Mount the local kubeconfig file into the container
-        "-v", "${env:HOME}/.kube/config:/home/user/.kube/config:ro"
+    "mounts": [
+        // Mount kubeconfig
+        {
+            "source": "${localEnv:HOME}${localEnv:USERPROFILE}/.kube",
+            "target": "/home/vscode/.kube",
+            "type": "bind"
+        },
+        // Mount Docker config (for private registries, etc.)
+        {
+            "source": "${localEnv:HOME}${localEnv:USERPROFILE}/.docker",
+            "target": "/home/vscode/.docker-host",
+            "type": "bind"
+        }
     ],
     "containerEnv": {
-        // Set the KUBECONFIG environment variable to point to the mounted file
-        "KUBECONFIG": "/home/user/.kube/config"
-    }
+        "KUBECONFIG": "/home/vscode/.kube/config"
+    },
+    "remoteUser": "vscode"
 }
