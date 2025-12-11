@@ -3,8 +3,8 @@
     "dockerFile": "Dockerfile",
     "features": {
         "ghcr.io/devcontainers/features/docker-in-docker:2": {},
-        "./features/kubectl-k9s": {},
-        "./features/starship-nerd-font": {
+        "ghcr.io/joechandler73/devcontainer-features/kubectl-k9s:latest": {},
+        "ghcr.io/joechandler73/devcontainer-features/starship-nerd-font:latest": {
             "nerdFont": "IBMPlexMono",
             "starshipPreset": "no-runtime-versions",
             "fontVersion": "v3.4.0"
